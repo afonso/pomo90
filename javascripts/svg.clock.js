@@ -18,29 +18,39 @@ SVG.Clock = function(size, options) {
   this.plate = this.ellipse(100, 100).fill("transparent")
 
   /* small bar every minute */
-    for (i = 59; i >= 0; i--)
+    for (i = 89; i >= 0; i--)
       if (i % 5 != 0)
-        this.rect(1, 1).move(50, 4).fill("rgba(255,255,255,.1)").rotate(i * 6, 50, 50)
+        this.rect(1, 1).move(50, 5).fill("rgba(255,255,255,.1)").rotate(i * 4, 50, 50)
   /* bar every five minutes */
-    for (i = 59; i >= 0; i--)
-      this.rect(1, 3).move(50, 4).fill("rgba(255,255,255,.1)").rotate(i * 30, 50, 50)
-
-
+    for (i = 89; i >= 0; i--)
+      this.rect(1, 3).move(50, 4).fill("rgba(255,255,255,.1)").rotate(i * 20, 50, 50)
 
   /* pomodoro1 */
-  for (i = 149; i >= 0; i--)
+  for (i = 59; i >= 0; i--)
     this.rect(1, 4).move(50, 0).fill(red).rotate(i * 1, 50, 50)
-
-  /* pomodoro2 */
-  for (i = 329; i >= 180; i--)
-    this.rect(1, 4).move(50, 0).fill(red).rotate(i * 1, 50, 50)
-
   /* break1 */
-  for (i = 359; i >= 330; i--)
+  for (i = 79; i >= 60; i--)
     this.rect(1, 4).move(50, 0).fill(green).rotate(i * 1, 50, 50)
 
+  /* pomodoro2 */
+  for (i = 139; i >= 80; i--)
+    this.rect(1, 4).move(50, 0).fill(red).rotate(i * 1, 50, 50)
   /* break2 */
-  for (i = 179; i >= 150; i--)
+  for (i = 159; i >= 140; i--)
+    this.rect(1, 4).move(50, 0).fill(green).rotate(i * 1, 50, 50)
+
+  /* pomodoro3 */
+  for (i = 219; i >= 160; i--)
+    this.rect(1, 4).move(50, 0).fill(red).rotate(i * 1, 50, 50)
+  /* break3 */
+  for (i = 239; i >= 220; i--)
+    this.rect(1, 4).move(50, 0).fill(green).rotate(i * 1, 50, 50)
+
+  /* pomodoro4 */
+  for (i = 299; i >= 240; i--)
+    this.rect(1, 4).move(50, 0).fill(red).rotate(i * 1, 50, 50)
+  /* break4-LARGE */
+  for (i = 359; i >= 300; i--)
     this.rect(1, 4).move(50, 0).fill(green).rotate(i * 1, 50, 50)
 
 
@@ -68,11 +78,14 @@ SVG.extend(SVG.Clock, {
     this.date = date;
     this.drawMinutesPointer();
     var minutes = this.date.getMinutes();
-    (minutes >= 25 && minutes <= 29) || (minutes >= 55 && minutes <= 59) ? this.drawbreakLabels() : this.drawfocusLabels();
+    (minutes >= 15 && minutes <= 19) ||
+    (minutes >= 35 && minutes <= 39) ||
+    (minutes >= 55 && minutes <= 59) ||
+    (minutes >= 75 && minutes <= 89) ? this.drawbreakLabels() : this.drawfocusLabels();
   },
 
   drawMinutesPointer: function() {
-    this.minutes.rotate(360 + 360 / 60 * this.date.getMinutes(), 50, 50);
+    this.minutes.rotate(360 + 360 / 5400 * ((this.date.getMinutes() * 60) + this.date.getSeconds()), 50, 50);
   },
 
   drawfocusLabels: function() {
@@ -94,17 +107,26 @@ SVG.extend(SVG.Clock, {
   timeLeftToString: function() {
     return this.formatTime(this.minutesLeft(), 59 - this.date.getSeconds());
   },
-
+  //15 + 5 + 15 + 5 + 15 + 5 + 15 + 15
+  //  15  20   35  40   55  60   75   90
   minutesLeft: function() {
     var minutes = this.date.getMinutes();
-    if (minutes < 25)
-      return 24 - minutes;
-    else if (minutes < 30)
-      return 29 - minutes;
-    else if (minutes < 55)
+    if (minutes < 15)
+      return 14 - minutes;
+    if (minutes < 20)
+      return 19 - minutes;
+    if (minutes < 35)
+      return 34 - minutes;
+    if (minutes < 40)
+      return 39 - minutes;
+    if (minutes < 55)
       return 54 - minutes;
-    else
+    if (minutes < 60)
       return 59 - minutes;
+    if (minutes < 75)
+      return 74 - minutes;
+
+      return 89 - minutes;
   },
 
   formatTime: function(minutes, seconds) {
