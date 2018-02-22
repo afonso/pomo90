@@ -11,13 +11,6 @@ Teamodoro = {
 
     if (this.inBreak())
       this.displayRandomGif();
-
-    document.getElementById('about').addEventListener('click',function() {
-      document.getElementById('why').style.display = 'block';
-    });
-    document.getElementById('close').addEventListener('click',function() {
-      document.getElementById('why').style.display = 'none';
-    });
   },
 
   updateClock: function() {
@@ -45,7 +38,7 @@ Teamodoro = {
       return;
 
     var request = new XMLHttpRequest();
-    request.open("GET", "http://api.giphy.com/v1/gifs/random?api_key=l41lOAgtfPWzS35sY&tag=relax&rate=g", true);
+    request.open("GET", "https://api.giphy.com/v1/gifs/random?api_key=5U5PjRliem0WnBKxFP8cXhV3Y2tqko8u&tag=relax&rate=g", true);
 
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
