@@ -105,6 +105,7 @@ SVG.extend(SVG.Clock, {
   },
 
   timeLeftToString: function() {
+    console.log(this.minutesLeft())
     return this.formatTime(this.minutesLeft(), 59 - this.date.getSeconds());
   },
   //15 + 5 + 15 + 5 + 15 + 5 + 15 + 15
