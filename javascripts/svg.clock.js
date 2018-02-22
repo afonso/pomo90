@@ -77,19 +77,14 @@ SVG.extend(SVG.Clock, {
   newMinutes: function() {
     const hour = this.date.getHours();
     const minute = this.date.getMinutes();
-    // so cai o 9
     if (!(hour % 3)) {
       return minute;
     }
-
-    // so cai o 10
     if (!((hour - 1) % 3)) {
       return minute < 30
         ? minute + 60
         : minute - 30;
     }
-
-    // so cai as 11
     return minute + 30;
   },
 
