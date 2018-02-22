@@ -55,7 +55,7 @@ Teamodoro = {
   },
 
   inBreak: function() {
-    var minutes = this.getDate().getMinutes();
+    var minutes = this.clock.newMinutes();
     return (minutes >= 15 && minutes <= 19) || (minutes >= 35 && minutes <= 39) || (minutes >= 55 && minutes <= 59) || (minutes >= 75 && minutes <= 89);
   },
 
