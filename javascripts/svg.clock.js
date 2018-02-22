@@ -74,10 +74,29 @@ SVG.Clock = function(size, options) {
 SVG.Clock.prototype = new SVG.Container
 
 SVG.extend(SVG.Clock, {
+  newMinutes: function() {
+    const hour = this.date.getHours();
+    const minute = this.date.getMinutes();
+    // so cai o 9
+    if (!(hour % 3)) {
+      return minute;
+    }
+
+    // so cai o 10
+    if (!((hour - 1) % 3)) {
+      return minute < 30
+        ? minute + 60
+        : minute - 30;
+    }
+
+    // so cai as 11
+    return minute + 30;
+  },
+
   update: function(date) {
     this.date = date;
     this.drawMinutesPointer();
-    var minutes = this.date.getMinutes();
+    var minutes = this.newMinutes();
     (minutes >= 15 && minutes <= 19) ||
     (minutes >= 35 && minutes <= 39) ||
     (minutes >= 55 && minutes <= 59) ||
@@ -85,7 +104,7 @@ SVG.extend(SVG.Clock, {
   },
 
   drawMinutesPointer: function() {
-    this.minutes.rotate(360 + 360 / 5400 * ((this.date.getMinutes() * 60) + this.date.getSeconds()), 50, 50);
+    this.minutes.rotate(360 + 360 / 5400 * ((this.newMinutes() * 60) + this.date.getSeconds()), 50, 50);
   },
 
   drawfocusLabels: function() {
@@ -105,13 +124,12 @@ SVG.extend(SVG.Clock, {
   },
 
   timeLeftToString: function() {
-    console.log(this.minutesLeft())
     return this.formatTime(this.minutesLeft(), 59 - this.date.getSeconds());
   },
   //15 + 5 + 15 + 5 + 15 + 5 + 15 + 15
   //  15  20   35  40   55  60   75   90
   minutesLeft: function() {
-    var minutes = this.date.getMinutes();
+    var minutes = this.newMinutes();
     if (minutes < 15)
       return 14 - minutes;
     if (minutes < 20)
